@@ -1,84 +1,103 @@
-Gestione Appuntamenti Online (Laravel + PHP + JavaScript)
-Realizzare una web application per la gestione di appuntamenti online (es. studio medico, consulenze, centro servizi) con:
-Backend in Laravel (PHP)
-Frontend con JavaScript
-CRUD completo
-Autenticazione utenti
-Interazione asincrona 
----- Tecnologie richieste
-PHP 
-Laravel 
-MySQL
-HTML5 / CSS3
-JavaScript (ES6)
-Fetch API (o Axios) solo se si hanno conoscenze.
------ Funzionalità richieste
-1. Autenticazione
-Usare il sistema di autenticazione Laravel 
-Registrazione utente
-Login / Logout
-Solo utenti autenticati possono gestire gli appuntamenti
----- Gestione Appuntamenti (CRUD)
-Ogni Appuntamento contiene:
-Campo 				Tipo 
-id     				integer
-titolo  				string
-descrizione   			text
-data                            date	 
-ora								  time
-stato							  enum (prenotato, completato, annullato)
-user_id							  foreign 
-keycreated_at						  mestamp
-3.  Backend (Laravel)
-Model
-php artisan make:model Appointment -m
-Controller
-php artisan make:controller AppointmentController --resource
-Metodi richiesti:
-index()
-create()
-store()
-edit()
-update()
-destroy()
-4. Rotte (web.php)
-imposta le rotte
-5.  Frontend (Blade + JS)
-Vista elenco appuntamenti
-Tabella con:
-Titolo
-Data
-Ora
-Stato
-Azioni (Modifica / Elimina)
-Inserimento appuntamento
-Form con validazione lato server
-Validazione lato client (JavaScript)
-6. JavaScript (AJAX)
-Usare Fetch API per:
-Eliminare un appuntamento senza ricaricare la pagina
-Cambiare lo stato dell’appuntamento (dropdown)
+# Gestione Appuntamenti Online  
+Applicazione web per la gestione di appuntamenti online (studio medico, consulenze, centri servizi).  
+Include autenticazione utente, CRUD completo e interazione asincrona tramite JavaScript.
+
+---
+
+## Tecnologie Utilizzate
+
+### Backend
+- PHP 8+
+- Laravel
+- MySQL (MariaDB compatibile)
+
+### Frontend
+- HTML5 / CSS3
+- JavaScript (ES6)
+- Fetch API (o Axios)
+- Blade Templates (Laravel)
+
+---
+
+## Funzionalità Principali
+
+### 1. Autenticazione
+- Registrazione utente
+- Login / Logout
+- Accesso protetto alle funzionalità
+- Middleware Laravel `auth`
+
+### 2. Gestione Appuntamenti (CRUD)
+Ogni appuntamento contiene:
+- **id**  
+- **titolo**  
+- **descrizione**  
+- **data**  
+- **ora**  
+- **stato** (prenotato, completato, annullato)  
+- **user_id** (relazione con utente autenticato)
+
+Funzionalità:
+- Creazione, modifica, eliminazione appuntamenti
+- Validazione lato server (Request Validation)
+- Validazione lato client (JavaScript)
+
+### 3. Interazione Asincrona (AJAX)
+- Eliminazione appuntamenti senza ricaricare la pagina
+- Cambio stato dinamico con dropdown
+- Aggiornamento vista tramite Fetch API
+
 Esempio:
+```javascript
 fetch(`/appointments/${id}`, {
     method: 'DELETE',
     headers: {
         'X-CSRF-TOKEN': csrfToken
     }
 })
-.then(response => response.json())
+.then(res => res.json())
 .then(data => {
-    // rimuove la riga dalla tabella
+    // aggiorna l’interfaccia
 });
-7. Validazione
-Laravel (Request Validation)
-titolo: obbligatorio, min 3 caratteri
-Data: non nel passato
-ora: obbligatoria
-8. Autorizzazione
-Un utente può modificare/eliminare solo i propri appuntamenti
-Usare Policy Laravel
------------ Funzionalità EXTRA
-Filtro appuntamenti per data o stato
-Calendario mensile (JS)
-Invio email di conferma
+```
+
+### 4. Autorizzazioni
+- Un utente può modificare/eliminare **solo i propri appuntamenti**
+- Implementazione tramite **Laravel Policies**
+
+---
+
+## Funzionalità Extra (Opzionali)
+- Filtri per data o stato
+- Calendario mensile in JavaScript
+- Invio email di conferma appuntamento
+
+---
+
+## Installazione
+
+```
+git clone https://github.com/utente/nome-repo.git
+cd nome-repo
+composer install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate
+npm install && npm run dev
+php artisan serve
+```
+
+---
+
+## Requisiti
+- PHP 8 o superiore
+- Composer
+- MySQL/MariaDB
+- Node.js + NPM
+
+---
+
+## Licenza
+Questo progetto è distribuito con licenza MIT.
+
 Responsive design
