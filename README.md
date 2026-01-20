@@ -1,135 +1,193 @@
-# Gestione Appuntamenti Online  
-Applicazione web per la gestione di appuntamenti online (studi medici, consulenze, centri servizi).  
-Include autenticazione, CRUD completo, gestione asincrona degli stati e autorizzazioni utente.
+Gestione Appuntamenti Online (Laravel + PHP + JavaScript)
+Realizzare una web application per la gestione di appuntamenti online (es. studio medico, consulenze, centro servizi) con:
 
----
 
-## Panoramica
-Questo progetto fornisce un sistema semplice e moderno per gestire appuntamenti attraverso un’interfaccia web.  
-Gli utenti registrati possono creare, modificare, cancellare e aggiornare lo stato dei propri appuntamenti.  
-Il frontend utilizza Blade e JavaScript, mentre il backend è realizzato con Laravel.
+Backend in Laravel (PHP)
 
----
 
-## Tecnologie Utilizzate
+Frontend con JavaScript
 
-### Backend
-- PHP 8+
-- Laravel
-- MySQL / MariaDB
 
-### Frontend
-- HTML5 / CSS3
-- JavaScript (ES6)
-- Blade Templates
-- Fetch API (o Axios)
+CRUD completo
 
----
 
-## Funzionalità Principali
+Autenticazione utenti
 
-### 1. Autenticazione Utenti
-- Registrazione e login
-- Logout
-- Accesso protetto tramite middleware `auth`
-- Sistema fornito tramite Laravel Breeze (o Jetstream)
 
-### 2. CRUD Appuntamenti
-Ogni appuntamento contiene:
-- id  
-- titolo  
-- descrizione  
-- data  
-- ora  
-- stato (prenotato, completato, annullato)  
-- user_id (relazione con utente autenticato)
+Interazione asincrona 
 
-Azioni disponibili:
-- Creazione
-- Modifica
-- Eliminazione
-- Aggiornamento stato
-- Validazione lato server (Laravel Request)
-- Validazione lato client (JS)
 
-### 3. Interazione Asincrona (AJAX)
-Funzionalità dinamiche senza ricaricare la pagina:
-- Eliminazione tramite `fetch`
-- Cambio stato tramite dropdown
-- Aggiornamento immediato della UI
+
+---- Tecnologie richieste
+
+
+PHP 
+
+
+Laravel 
+
+
+MySQL
+
+
+HTML5 / CSS3
+
+
+JavaScript (ES6)
+
+
+Fetch API (o Axios) solo se si hanno conoscenze.
+
+
+
+----- Funzionalità richieste
+1. Autenticazione
+Usare il sistema di autenticazione Laravel 
+
+
+Registrazione utente
+
+
+Login / Logout
+
+
+Solo utenti autenticati possono gestire gli appuntamenti
+
+
+
+---- Gestione Appuntamenti (CRUD)
+Ogni Appuntamento contiene:
+Campo 				Tipo 
+id     				integer
+titolo  				string
+descrizione   			text
+data                            date	 
+ora								  time
+stato							  enum (prenotato, completato, annullato)
+user_id							  foreign 
+keycreated_at						  mestamp
+
+3.  Backend (Laravel)
+Model
+php artisan make:model Appointment -m
+
+Controller
+php artisan make:controller AppointmentController --resource
+
+Metodi richiesti:
+
+
+index()
+
+
+create()
+
+
+store()
+
+
+edit()
+
+
+update()
+
+
+destroy()
+
+
+
+4. Rotte (web.php)
+
+imposta le rotte
+
+
+5.  Frontend (Blade + JS)
+Vista elenco appuntamenti
+
+
+Tabella con:
+
+
+Titolo
+
+
+Data
+
+
+Ora
+
+
+Stato
+
+
+Azioni (Modifica / Elimina)
+
+
+
+
+Inserimento appuntamento
+
+
+Form con validazione lato server
+
+
+Validazione lato client (JavaScript)
+
+
+
+6. JavaScript (AJAX)
+Usare Fetch API per:
+
+Eliminare un appuntamento senza ricaricare la pagina
+
+Cambiare lo stato dell’appuntamento (dropdown)
+
 
 Esempio:
-```javascript
 fetch(`/appointments/${id}`, {
     method: 'DELETE',
-    headers: { 'X-CSRF-TOKEN': csrfToken }
+    headers: {
+        'X-CSRF-TOKEN': csrfToken
+    }
 })
-.then(res => res.json())
-.then(() => {
-    document.getElementById(`row-${id}`).remove();
+.then(response => response.json())
+.then(data => {
+    // rimuove la riga dalla tabella
 });
-```
 
-### 4. Autorizzazioni
-- Solo il proprietario può modificare o eliminare l’appuntamento
-- Implementazione tramite **Laravel Policies**
 
----
+7. Validazione
+Laravel (Request Validation)
 
-## Installazione
 
-### 1. Clonare il progetto
-```
-git clone https://github.com/tuo-utente/nome-repo.git
-cd nome-repo
-```
+titolo: obbligatorio, min 3 caratteri
 
-### 2. Installare le dipendenze PHP
-```
-composer install
-```
 
-### 3. Configurazione ambiente
-```
-cp .env.example .env
-php artisan key:generate
-```
-Configurare DB nel file `.env`.
+data: non nel passato
 
-### 4. Eseguire migrazioni
-```
-php artisan migrate
-```
 
-### 5. Installare dipendenze frontend
-```
-npm install
-npm run dev
-```
+ora: obbligatoria
 
-### 6. Avviare il server di sviluppo
-```
-php artisan serve
-```
 
----
 
-## Funzionalità Extra (Opzionali)
-- Filtri per data o stato
-- Calendario mensile in JavaScript
-- Notifiche email per nuovi appuntamenti
+8. Autorizzazione
 
----
 
-## Requisiti
-- PHP >= 8.1
-- MySQL / MariaDB
-- Composer
-- Node.js + NPM
+Un utente può modificare/eliminare solo i propri appuntamenti
 
----
 
-## Licenza
-Rilasciato sotto licenza MIT.
+Usare Policy Laravel
+
+
+----------- Funzionalità EXTRA
+
+Filtro appuntamenti per data o stato
+
+Calendario mensile (JS)
+
+Invio email di conferma
+
+Responsive design
+
 
 
