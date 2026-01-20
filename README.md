@@ -1,6 +1,13 @@
 # Gestione Appuntamenti Online  
-Applicazione web per la gestione di appuntamenti online (studio medico, consulenze, centri servizi).  
-Include autenticazione utente, CRUD completo e interazione asincrona tramite JavaScript.
+Applicazione web per la gestione di appuntamenti online (studi medici, consulenze, centri servizi).  
+Include autenticazione, CRUD completo, gestione asincrona degli stati e autorizzazioni utente.
+
+---
+
+## Panoramica
+Questo progetto fornisce un sistema semplice e moderno per gestire appuntamenti attraverso un’interfaccia web.  
+Gli utenti registrati possono creare, modificare, cancellare e aggiornare lo stato dei propri appuntamenti.  
+Il frontend utilizza Blade e JavaScript, mentre il backend è realizzato con Laravel.
 
 ---
 
@@ -9,95 +16,120 @@ Include autenticazione utente, CRUD completo e interazione asincrona tramite Jav
 ### Backend
 - PHP 8+
 - Laravel
-- MySQL (MariaDB compatibile)
+- MySQL / MariaDB
 
 ### Frontend
 - HTML5 / CSS3
 - JavaScript (ES6)
+- Blade Templates
 - Fetch API (o Axios)
-- Blade Templates (Laravel)
 
 ---
 
 ## Funzionalità Principali
 
-### 1. Autenticazione
-- Registrazione utente
-- Login / Logout
-- Accesso protetto alle funzionalità
-- Middleware Laravel `auth`
+### 1. Autenticazione Utenti
+- Registrazione e login
+- Logout
+- Accesso protetto tramite middleware `auth`
+- Sistema fornito tramite Laravel Breeze (o Jetstream)
 
-### 2. Gestione Appuntamenti (CRUD)
+### 2. CRUD Appuntamenti
 Ogni appuntamento contiene:
-- **id**  
-- **titolo**  
-- **descrizione**  
-- **data**  
-- **ora**  
-- **stato** (prenotato, completato, annullato)  
-- **user_id** (relazione con utente autenticato)
+- id  
+- titolo  
+- descrizione  
+- data  
+- ora  
+- stato (prenotato, completato, annullato)  
+- user_id (relazione con utente autenticato)
 
-Funzionalità:
-- Creazione, modifica, eliminazione appuntamenti
-- Validazione lato server (Request Validation)
-- Validazione lato client (JavaScript)
+Azioni disponibili:
+- Creazione
+- Modifica
+- Eliminazione
+- Aggiornamento stato
+- Validazione lato server (Laravel Request)
+- Validazione lato client (JS)
 
 ### 3. Interazione Asincrona (AJAX)
-- Eliminazione appuntamenti senza ricaricare la pagina
-- Cambio stato dinamico con dropdown
-- Aggiornamento vista tramite Fetch API
+Funzionalità dinamiche senza ricaricare la pagina:
+- Eliminazione tramite `fetch`
+- Cambio stato tramite dropdown
+- Aggiornamento immediato della UI
 
 Esempio:
 ```javascript
 fetch(`/appointments/${id}`, {
     method: 'DELETE',
-    headers: {
-        'X-CSRF-TOKEN': csrfToken
-    }
+    headers: { 'X-CSRF-TOKEN': csrfToken }
 })
 .then(res => res.json())
-.then(data => {
-    // aggiorna l’interfaccia
+.then(() => {
+    document.getElementById(`row-${id}`).remove();
 });
 ```
 
 ### 4. Autorizzazioni
-- Un utente può modificare/eliminare **solo i propri appuntamenti**
+- Solo il proprietario può modificare o eliminare l’appuntamento
 - Implementazione tramite **Laravel Policies**
+
+---
+
+## Installazione
+
+### 1. Clonare il progetto
+```
+git clone https://github.com/tuo-utente/nome-repo.git
+cd nome-repo
+```
+
+### 2. Installare le dipendenze PHP
+```
+composer install
+```
+
+### 3. Configurazione ambiente
+```
+cp .env.example .env
+php artisan key:generate
+```
+Configurare DB nel file `.env`.
+
+### 4. Eseguire migrazioni
+```
+php artisan migrate
+```
+
+### 5. Installare dipendenze frontend
+```
+npm install
+npm run dev
+```
+
+### 6. Avviare il server di sviluppo
+```
+php artisan serve
+```
 
 ---
 
 ## Funzionalità Extra (Opzionali)
 - Filtri per data o stato
 - Calendario mensile in JavaScript
-- Invio email di conferma appuntamento
-
----
-
-## Installazione
-
-```
-git clone https://github.com/utente/nome-repo.git
-cd nome-repo
-composer install
-cp .env.example .env
-php artisan key:generate
-php artisan migrate
-npm install && npm run dev
-php artisan serve
-```
+- Notifiche email per nuovi appuntamenti
 
 ---
 
 ## Requisiti
-- PHP 8 o superiore
+- PHP >= 8.1
+- MySQL / MariaDB
 - Composer
-- MySQL/MariaDB
 - Node.js + NPM
 
 ---
 
 ## Licenza
-Questo progetto è distribuito con licenza MIT.
+Rilasciato sotto licenza MIT.
 
-Responsive design
+
